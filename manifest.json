@@ -2,7 +2,7 @@
 	"name": "EmojiGuessr",
 	"version": "0.8",
 	"manifest_version": 2,
-	"description": "Change each word into the emoji whose name immediately follows it. " @ Hackapalooza",
+	"description": "Change each word into the emoji whose name immediately follows it.",
 	"permissions": ["storage", "tabs"],
 	"background": {
 		"scripts": ["background.js"],
