@@ -5,7 +5,7 @@ const TRUE = "true"
 const url = chrome.runtime.getURL('translations.json');
 
 let words;
-
+let Strarray=[];
 // Load text with Ajax synchronously: takes path to file and optional MIME type
 function loadTextFileAjaxSync(filePath, mimeType, callback) {
 	var xmlhttp = new XMLHttpRequest();
@@ -20,6 +20,7 @@ function loadTextFileAjaxSync(filePath, mimeType, callback) {
 }
 
 let loadEvent = function () {
+
 	chrome.storage.local.get(STORAGE_KEY, (val) => {
 		let enabled = val[STORAGE_KEY];
 
@@ -55,7 +56,7 @@ let loadEvent = function () {
 						child = next;
 					}
 					break;
-
+					
 				case 3: // Text node
 					handleText(node);
 					break;
@@ -67,15 +68,37 @@ let loadEvent = function () {
 
 	function handleText(textNode)
 	{
+			
+
 		let v = textNode.nodeValue;
+	
+		const james=v.split(" ", v.length);
+		james.forEach(element =>  {
+			if (element.toLowerCase()<="zzzz"&&element.toLowerCase()>="a"){
+			var hasfound=false;
+		for(let entry of Object.entries(words)){
+			if(entry[0].toLowerCase()>=element.toLowerCase()&&!hasfound){
+			console.log(entry[0]);
+			console.log(element);
+			hasfound=true;
+				v = v.replaceAll(new RegExp("\\b" + element + "\\b", "ig"), entry[1]);
+			}
+			}
+			}
 
-		for (let entry of Object.entries(words)) {
-			v = v.replaceAll(new RegExp("\\b" + entry[0] + "\\b", "ig"), entry[1]);
-		}
+		});
+		 
+		
+	for (let entry of Object.entries(words)) {
+		v = v.replaceAll(new RegExp("\\b" + entry[0] + "\\b", "ig"), entry[1]);
+	}
+	
 
+	
 		textNode.nodeValue = v;
 	}
 }
+
 
 // Load json file;
 loadTextFileAjaxSync(url, "application/json", event => {
@@ -87,4 +110,12 @@ loadTextFileAjaxSync(url, "application/json", event => {
 	} else {
 		loadEvent()
 	}
+	
+
+for(let entry of Object.entries(words)){
+	Strarray.push(entry[0]);
+}
+
+
+
 });
