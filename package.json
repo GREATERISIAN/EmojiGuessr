@@ -1,5 +1,9 @@
 {
+  "type":"module",
   "dependencies": {
     "emojibase": "^5.2.0"
-  }
+  },
+  "web_accessible_resources": [
+    "data/data.json"
+]
 }
