@@ -1,27 +1,32 @@
+//TODO can you share constants?
+const STORAGE_KEY = 'enabled';
+const ON = "On";
+const OFF = "Off";
+const TRUE = "true"
+const FALSE = "false"
+
 const active = document.getElementById('active');
 
+chrome.storage.local.get(STORAGE_KEY, (val) => {
+    active.checked = val[STORAGE_KEY] ? val[STORAGE_KEY] === TRUE : false;
+});
 
-// Save current window tab to Chrome storage
-active.onchange = function(event) {
+active.onchange = function() {
+    console.log(active.checked);
 
+  if (active.checked) {
+      //TODO do this right
+      let val = {};
+      val[STORAGE_KEY] = TRUE;
+      chrome.storage.local.set(val)
 
-  // Turn YEP
-  if (event.target.checked) {
-	chrome.browserAction.setBadgeText({ text: "Goo"});
-  // Turn NOPE
+      chrome.browserAction.setBadgeText({ text: ON });
   } else {
-    chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-        chrome.browserAction.setBadgeText({ text: "Gaa"});
-    });
+      let val = {};
+      val[STORAGE_KEY] = FALSE;
+      chrome.storage.local.set(val)
 
-    activeLabel.innerHTML = NOPE;
-    settingsContainer.classList.remove('disabled');
-    chrome.action.setBadgeText({ text: NOPE });
+      chrome.browserAction.setBadgeText({ text: OFF });
 
   }
-}
-
-
-function activate(){
-    title="Carrot";
 }
