@@ -25,6 +25,9 @@ active.onchange = function() {
       chrome.storage.local.set(val)
 
       chrome.browserAction.setBadgeText({ text: OFF });
-
   }
+
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.reload(tabs[0].id);
+  });
 }
