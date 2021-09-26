@@ -1,11 +1,25 @@
 //TODO can you share constants?
 const STORAGE_KEY = 'enabled';
 const TRUE = "true"
-const WORD_LIST = new Map();
 
-WORD_LIST.set("example", "totally not example")
+const url = chrome.runtime.getURL('translations.json');
 
-onload = function () {
+let words;
+
+// Load text with Ajax synchronously: takes path to file and optional MIME type
+function loadTextFileAjaxSync(filePath, mimeType, callback) {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET", filePath,true);
+	if (mimeType != null) {
+		if (xmlhttp.overrideMimeType) {
+			xmlhttp.overrideMimeType(mimeType);
+		}
+	}
+	xmlhttp.onload = callback;
+	xmlhttp.send();
+}
+
+let loadEvent = function () {
 	chrome.storage.local.get(STORAGE_KEY, (val) => {
 		let enabled = val[STORAGE_KEY];
 
@@ -55,10 +69,22 @@ onload = function () {
 	{
 		let v = textNode.nodeValue;
 
-		WORD_LIST.forEach((value, key) => {
-			v = v.replaceAll(new RegExp(key, "ig"), value);
+		Object.entries(words).forEach((value) => {
+			v = v.replaceAll(new RegExp("\\b" + value[0] + "\\b", "ig"), value[1]);
 		})
 
 		textNode.nodeValue = v;
 	}
 }
+
+// Load json file;
+loadTextFileAjaxSync(url, "application/json", event => {
+	// Parse json
+	words = JSON.parse(event.target.responseText);
+
+	if (document.readyState !== 'complete') {
+		onload = loadEvent;
+	} else {
+		loadEvent()
+	}
+});
