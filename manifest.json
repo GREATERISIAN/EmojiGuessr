@@ -1,6 +1,6 @@
 {
-	"name": "EmojiGuessr",
-	"version": "0.8",
+	"name": "Emojimizer",
+	"version": "1.0",
 	"manifest_version": 2,
 	"description": "Change each word into the emoji whose name immediately follows it.",
 	"permissions": ["storage", "tabs"],
