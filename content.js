@@ -69,17 +69,18 @@ let loadEvent = function () {
 	function handleText(textNode)
 	{
 			
-
+		
 		let v = textNode.nodeValue;
-	
+
 		const james=v.split(" ", v.length);
 		james.forEach(element =>  {
 			if (element.toLowerCase()<="zzzz"&&element.toLowerCase()>="a"){
 			var hasfound=false;
+			
+			element=element.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 		for(let entry of Object.entries(words)){
 			if(entry[0].toLowerCase()>=element.toLowerCase()&&!hasfound){
-			console.log(entry[0]);
-			console.log(element);
+			
 			hasfound=true;
 				v = v.replaceAll(new RegExp("\\b" + element + "\\b", "ig"), entry[1]);
 			}
@@ -87,7 +88,7 @@ let loadEvent = function () {
 			}
 
 		});
-		 
+	
 		
 	for (let entry of Object.entries(words)) {
 		v = v.replaceAll(new RegExp("\\b" + entry[0] + "\\b", "ig"), entry[1]);
