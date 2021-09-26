@@ -69,9 +69,9 @@ let loadEvent = function () {
 	{
 		let v = textNode.nodeValue;
 
-		Object.entries(words).forEach((value) => {
-			v = v.replaceAll(new RegExp("\\b" + value[0] + "\\b", "ig"), value[1]);
-		})
+		for (let entry of Object.entries(words)) {
+			v = v.replaceAll(new RegExp("\\b" + entry[0] + "\\b", "ig"), entry[1]);
+		}
 
 		textNode.nodeValue = v;
 	}
