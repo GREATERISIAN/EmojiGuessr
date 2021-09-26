@@ -12,8 +12,6 @@ chrome.storage.local.get(STORAGE_KEY, (val) => {
 });
 
 active.onchange = function() {
-    console.log(active.checked);
-
   if (active.checked) {
       //TODO do this right
       let val = {};
